@@ -37,10 +37,16 @@ def rank():
     return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/inform',methods=['GET','POST'])
+@login_required
 def inform():
     form = InfoForm()
     if form.validate_on_submit():
-        info=Info(infotitle)
+        info=Info(Infotitle=form.infotitle.data)
+        db.session.add(info)
+        db.session.commit()
+        flash('Congratulations, the infomation has been added!')
+        return redirect(url_for('index'))
+    return render_template('inform.html',title='Information', form=form)
 
 
 

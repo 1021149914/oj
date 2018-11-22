@@ -29,5 +29,6 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Please use a different email address.')
 
 class InfoForm(FlaskForm):
-    infotitle=StringField('Title',validators=[DataRequired])
-    infocontent=StringField('Content',validators=[DataRequired])
+    infotitle=StringField('Title',validators=[DataRequired()])
+    infocontent=StringField('Content',validators=[DataRequired()])
+    submit = SubmitField('Submit')
