@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 from wtforms.validators import ValidationError, Email, EqualTo
 from app.models import User
+from flask_wtf.file import FileField,FileRequired,FileAllowed
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -31,4 +32,19 @@ class RegistrationForm(FlaskForm):
 class InfoForm(FlaskForm):
     infotitle=StringField('Title',validators=[DataRequired()])
     infocontent=StringField('Content',validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class AProblem(FlaskForm):
+    problemtitle=StringField('Problem',validators=[DataRequired()])
+    problemdescription=StringField('Description',validators=[DataRequired()])
+    probleminput=StringField('Input',validators=[DataRequired()])
+    problemoutput=StringField('Output',validators=[DataRequired()])
+    problemsampleinput=StringField('Sample Input',validators=[DataRequired()])
+    problemsampleoutput=StringField('Sample Output',validators=[DataRequired()])
+    problemhint=StringField('Hint',validators=[DataRequired()])
+    problemsource=StringField('Source',validators=[DataRequired()])
+    problemtest=FileField('Test Data',validators=[FileRequired()])
+    problemans=FileField('Test Answer',validators=[FileRequired()])
+    problemms=StringField('MS',validators=[DataRequired()])
+    problemkb=StringField('KB',validators=[DataRequired()])
     submit = SubmitField('Submit')

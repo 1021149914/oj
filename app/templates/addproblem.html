@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Add Problem</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.problemtitle.label }}<br>
+            {{ form.problemtitle(size=32) }}<br>
+            {% for error in form.problemtitle.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemdescription.label }}<br>
+            {{ form.problemdescription(size=512) }}<br>
+            {% for error in form.problemdescription.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.probleminput.label }}<br>
+            {{ form.probleminput(size=256) }}<br>
+            {% for error in form.probleminput.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemoutput.label }}<br>
+            {{ form.problemoutput(size=256) }}<br>
+            {% for error in form.problemoutput.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemsampleinput.label }}<br>
+            {{ form.problemsampleinput(size=256) }}<br>
+            {% for error in form.problemsampleinput.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemsampleoutput.label }}<br>
+            {{ form.problemsampleoutput(size=256) }}<br>
+            {% for error in form.problemsampleoutput.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemhint.label }}<br>
+            {{ form.problemhint(size=256) }}<br>
+            {% for error in form.problemhint.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemsource.label }}<br>
+            {{ form.problemsource(size=256) }}<br>
+            {% for error in form.problemsource.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemtest.label }}<br>
+            {{ form.problemtest(size=64)}}<br>
+            {% for error in form.problemtest.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemans.label }}<br>
+            {{ form.problemans(size=64)}}<br>
+            {% for error in form.problemans.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemms.label }}<br>
+            {{ form.problemms(size=32) }}<br>
+            {% for error in form.problemms.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.problemkb.label }}<br>
+            {{ form.problemkb(size=32) }}<br>
+            {% for error in form.problemkb.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
