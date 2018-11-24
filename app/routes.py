@@ -2,14 +2,15 @@ from flask import render_template, flash, redirect, url_for
 from app import app
 from app.forms import LoginForm
 from flask_login import current_user, login_user ,logout_user
-from app.models import User, Info, Problem
+from app.models import User, Info, Problem, Commit
 from flask import request
 from werkzeug.urls import url_parse
 from flask_login import login_required
 from app import db
-from app.forms import RegistrationForm, InfoForm ,AProblem
+from app.forms import RegistrationForm, InfoForm, AProblem, SProblem, Submission
 from werkzeug import generate_password_hash, check_password_hash
 import os
+import datetime
 
 def save_to_file(file_name,contents):
     fh=open(file_name,'w')
@@ -50,17 +51,55 @@ def problem():
         data.append(tmp)
     return render_template('problem.html',title='Problem', data=data)
 
-@app.route('/detail/<name>')
-def show(name):
-    problem=Problem.query()#daiding
-    return name
+@app.route('/detail/<name>',methods=['GET','POST'])
+def detial(name):
+    tmp={}
+    problem=Problem.query.filter_by(problemid=name).first()
+    file_name='./Problem/problem'+str(name)
+    tmp['title']=read_file(file_name+'title.txt')
+    tmp['description']=read_file(file_name+'description.txt')
+    tmp['input']=read_file(file_name+'input.txt')
+    tmp['output']=read_file(file_name+'output.txt')
+    tmp['sampleinput']=read_file(file_name+'sampleinput.txt')
+    tmp['sampleoutput']=read_file(file_name+'sampleoutput.txt')
+    tmp['hint']=read_file(file_name+'hint.txt')
+    tmp['source']=read_file(file_name+'source.txt')
+    tmp['ms']=problem.problemms
+    tmp['kb']=problem.problemkb
+    tmp['id']=problem.problemid
+    tk='Problem'+str(name)
+    form=SProblem()
+    if form.validate_on_submit():
+        return redirect(url_for('submission'))
+    return render_template('detial.html',title=tk,tmp=tmp,form=form)
+
+@app.route('/submission',methods=['GET','POST'])
+def submission():
+    form = Submission()
+    if form.validate_on_submit():
+        status=form.status.data
+        problemid=form.problemid.data
+        rows=Commit.query.count()
+        commit=Commit(commitid=rows+1,userid=current_user.userid,problemid=problemid)
+        file_name='./Submit/'+str(rows)
+        if int(status)==0:file_name=file_name+'.cpp'
+        if int(status)==1:file_name=file_name+'.java'
+        if int(status)==2:file_name=file_name+'.py'
+        save_to_file(file_name,form.code.data)
+        flash('Congratulations, you have submit you code!')
+        commit.committime=datetime.datetime.now()
+        
+        return redirect(url_for('submission'))
+    return render_template('submission.html',title='Submit Problem',form=form)
+    
+
 
 @app.route('/contest')
 def contest():
     form = LoginForm()
     return render_template('login.html', title='Sign In', form=form)
 
-@app.route('/status')
+@app.route('/status') 
 def status():
     form = LoginForm()
     return render_template('login.html', title='Sign In', form=form)

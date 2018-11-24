@@ -2,7 +2,24 @@
 
 {% block content %}
     <!-- <h1>Hi, {{ current_user.username }}!</h1> -->
-    {% for i in data %}
-    <div><p>{{i.id}}: <a href="{{url_for('detial',name=i.id)}}"><b>{{i.title}}</b></a> {{i.source}} </p></div>
-    {% endfor %}
+    <div><p>{{tmp.id}}:<b>{{tmp.title}}</b></p></div>
+    <p>ms : {{tmp.ms}} , kb: {{tmp.kb}}</p>
+    <p><b>Description</b></p>
+    <p>{{tmp.description}}</p>
+    <p><b>Input</b></p>
+    <p>{{tmp.input}}</p>
+    <p><b>Output</b></p>
+    <p>{{tmp.output}}</p>
+    <p><b>Sample Input</b></p>
+    <p>{{tmp.sampleinput}}</p>
+    <p><b>Sample Output</b></p>
+    <p>{{tmp.sampleoutput}}</p>
+    <p><b>Hint</b></p>
+    <p>{{tmp.hint}}</p>
+    <p><b>Source</b></p>
+    <p>{{tmp.source}}</p>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>{{ form.submit() }}</p>
+    </form>
 {% endblock %}

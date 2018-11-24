@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 from wtforms.validators import ValidationError, Email, EqualTo
 from app.models import User
@@ -48,3 +48,12 @@ class AProblem(FlaskForm):
     problemms=StringField('MS',validators=[DataRequired()])
     problemkb=StringField('KB',validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class SProblem(FlaskForm):
+    submit=SubmitField('Submit')
+
+class Submission(FlaskForm):
+    problemid=StringField('Problem Id',validators=[DataRequired()])
+    status=SelectField('Language',validators=[DataRequired()],choices=[('0','C++'),('1','Java'),('2','Python')])
+    code=StringField('Code',validators=[DataRequired()])
+    submit=SubmitField('Submit')
