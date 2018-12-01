@@ -88,7 +88,11 @@ def submission():
         save_to_file(file_name,form.code.data)
         flash('Congratulations, you have submit you code!')
         commit.committime=datetime.datetime.now()
-        
+        commit.commitans="Accepted"
+        commit.commitms=120
+        commit.commitkb=1024
+        db.session.add(commit)
+        db.session.commit()
         return redirect(url_for('submission'))
     return render_template('submission.html',title='Submit Problem',form=form)
     
@@ -101,13 +105,37 @@ def contest():
 
 @app.route('/status') 
 def status():
-    form = LoginForm()
-    return render_template('login.html', title='Sign In', form=form)
+    commit=Commit.query.order_by(Commit.commitid.desc())
+    data=[]
+    for i in commit:
+        tmp={}
+        tmp['id']=i.commitid
+        tmp['problemid']=i.problemid
+        tmp['time']=i.committime
+        file_name='./Problem/problem'+str(i.problemid)
+        tmp['title']=read_file(file_name+'title.txt')
+        tmp['ans']=i.commitans
+        tmp['ms']=i.commitms
+        tmp['kb']=i.commitkb
+        data.append(tmp)
+    return render_template('status.html', title='Home', data=data)
 
 @app.route('/rank')
 def rank():
-    form = LoginForm()
-    return render_template('login.html', title='Sign In', form=form)
+    user=User.query.all()
+    data=[]
+    for i in user:
+        length=Commit.query.filter_by(userid=i.userid).count()
+        tmp=[]
+        tmp.append(i.userid)
+        tmp.append(i.username)
+        tmp.append(length)
+        data.append(tmp)
+    data.sort(key=lambda x:x[2])
+    data.reverse()
+    return render_template('rank.html',title='Rank',data=data)
+
+    
 
 @app.route('/addproblem',methods=['GET','POST'])
 @login_required
